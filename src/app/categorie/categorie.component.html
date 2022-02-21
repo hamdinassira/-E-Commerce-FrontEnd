@@ -1,0 +1,47 @@
+<div class="container-fluid mt-2 rounded border " >
+  <div class="row">
+    <div *ngFor="let c of categories._embedded.categories">
+<div *ngIf="c.idCategorie">
+    <div class="col-md-6 pagination" *ngFor="let p of products._embedded.products"
+         [routerLink]="['/produit/'+p.id]" routerLinkActive="router-link-active">
+
+      <div class="card  shadow-sm text-center"><h4 class="card-text panel-heading"  >
+            {{p.name}}
+          </h4>
+
+        <div class="card-body">
+
+          <table>
+            <tr>
+              <td rowspan="4">
+                <img height="150" width="100" class="img-thumbnail img-fluid" src="{{this.produit.URL+'/image/'+p.id}}" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{p.description}}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                {{p.price | number:'0.2'}}
+              </td>
+              <td></td>
+            </tr>
+          </table>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+
+              <!-- <button type="button" class="btn btn-sm btn-outline-primary" ">
+                Add to Cart
+              </button> -->
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
