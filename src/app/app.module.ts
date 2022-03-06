@@ -23,6 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProduitDetailComponent } from './produit-detail/produit-detail.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -52,7 +54,7 @@ import { ProduitDetailComponent } from './produit-detail/produit-detail.componen
     HttpClientModule,
     FormsModule,
    ReactiveFormsModule,
-   RouterModule,
+    FontAwesomeModule
 
   ],
   providers: [],

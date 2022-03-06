@@ -1,141 +1,80 @@
-<!-- <div class="container" >
-  <div *ngFor="let p of products._embedded.products">
-    <div class="col-md-6" >
-      <div class="panel panel-default">
-<div class="panel-heading">
-{{ p.name }}
-</div>
-<div class="panel-body">
 
-</div>
-      </div> -->
-      <!-- Single Image -->
-
-    <!-- </div> -->
-    <!-- <div class="product-container__details">
-      <h2 class="title">Produit: {{ p.name }}</h2>
-      <div class="reviews">
-        <div class="rating">
-          <i nz-icon nzType="star" nzTheme="fill"></i>
-          <i nz-icon nzType="star" nzTheme="fill"></i>
-          <i nz-icon nzType="star" nzTheme="fill"></i>
-          <i nz-icon nzType="star" nzTheme="fill"></i>
-          <i nz-icon nzType="star"></i>
-        </div>
-        <span class="review-link"
-          >10 Review(s) |
-          <span style="cursor: pointer">Add your review</span></span
-        >
-      </div>
-      <div class="price-container">
-        <h2 class="price">{{ p.price | currency: "USD" }}</h2>
-        <span
-          class="availability"
-          [ngStyle]="{ color: quantity > 0 ? 'inherit' : 'red' }"
-          >{{ quantite === 0 ? "Out of stock" : "In stock" }}</span
-        >
-      </div>
-      <div class="description">{{ p.description }}</div>
-      <div class="cta">
-        <div class="add-to-cart">
-          <span>QTY:</span>
-          <nz-input-number
-            [(ngModel)]="quantite"
-            [nzMin]="p.quantite > 0 ? 1 : 0"
-            [nzMax]="p.quantite > 0 ? p.quantite : 0"
-            [nzStep]="1"
-          ></nz-input-number>
-          <button
-            nz-button
-            nzType="primary"
-            (click)="addToCart()"
-            [disabled]="quantite === 0"
-          >
-            Add to cart
-          </button>
-        </div>
-        <div class="category">
-          <span>Categorie: </span> {{ p.categorie }}
-        </div>
-        <div class="social-links">
-          <span>Share: </span>
-          <i nz-icon nzType="facebook" nzTheme="outline"></i>
-          <i nz-icon nzType="twitter" nzTheme="outline"></i>
-          <i nz-icon nzType="google-plus" nzTheme="outline"></i>
-          <i nz-icon nzType="mail" nzTheme="outline"></i>
-        </div>
-      </div> -->
-    <!-- </div> -->
-  <!-- </div>
-  <div class="additional"></div>
-</div> -->
-
-
-
-<!-- <div *ngFor="let p of products._embedded.products">
-<div class="col-md-3" >
-  <div class="panel panel-default">
-
-    <div class="panel-heading"> <img src="{{this.produit.URL+'/image/'+p.id}}" /></div>
-    <div class="panel-body"><h4 >{{p.name}}</h4>
-        <table>
-          <tr>
-            <td>
-              {{p.description}}
-            </td>
-          </tr>
-        </table>
-      </div>
-  </div> -->
-
-    <!-- <div class="media"> -->
-      <!-- <div class="media-left"> -->
-
-      <!-- </div> -->
-      <!-- <div class="media-body"> -->
-
-
-      <!-- </div> -->
-    <!-- </div> -->
-
-<!-- </div>
-</div> -->
-
-<div class="container-fluid mt-2 rounded border " >
-  <div class="row">
-    <div class="col-md-6 pagination" *ngFor="let p of products._embedded.products" [routerLink]="['/produit/'+p.id]" routerLinkActive="router-link-active">
-      <div class="card  shadow-sm text-center"><h4 class="card-text panel-heading"  >
+<div class="container">
+<div class="row" >
+    <div class="col-md-6 " style="border: darkgrey; margin-bottom: 10px; margin-left: auto;"
+         *ngFor="let p of products._embedded.products" >
+         <!-- [routerLink]="['/detailProduit']" routerLinkActive="router-link-active" -->
+<div class="card" >
+      <!-- <div class=""> -->
+        <div class="card-header shadow-sm text-center">
+          <h4 class=" card-text"  >
             {{p.name}}
           </h4>
+        </div>
+
 
         <div class="card-body">
+          <img height="150"  class="img-fluid  text-center imd-rounded btn" src="{{this.produit.URL+'/image/'+p.id+'?ts='+getTS()}}"
+               (click)="onProductDetails(p)"/>
 
-          <table>
-            <tr>
-              <td rowspan="4">
-                <img height="150" width="100" class="img-thumbnail img-fluid" src="{{this.produit.URL+'/image/'+p.id}}" />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{p.description}}
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>
-                {{p.price | number:'0.2'}}
-              </td>
-              <td></td>
-            </tr>
-          </table>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
+          <div *ngIf="authService.isAdmin()">
+            <p>
+              <button (click)="onEditPhoto(p)">
+                <span class="bi bi-pencil-square">
+
+                </span>
+              </button>
+            </p>
+            <div  *ngIf="editPhoto==true && currentProduct==p">
+              <input type="file" (change)="onSelectFile($event)">
+              <button class="btn btn-success" (click)="uploadPhoto()">Upload</button>
+              <p><ngb-progressbar type="success" textType="white" [value]="progress" [showValue]="true"></ngb-progressbar></p>
+              {{progress}}
+            </div>
+
+           </div>
+           <div> {{p.description}}</div>
+           <div>
+            <label >Prix:
+            {{p.price | number:'0.2'}}
+          </label>
+        </div>
+            <div>
+              <span *ngIf="p.promotion && p.stock">
+                <i class="bi bi-bag-heart-fill" style="color: crimson;"></i>
+
+              </span>
+              <span *ngIf="p.selected">
+
+              </span>
+              <span *ngIf="p.stock">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+              </span>
+              <span  *ngIf="!p.stock">
+                <i class="bi bi-x-circle-fill" style="color: brown;"></i>
+
+              </span>
+
+
+
+            </div>
+          <div>
+            <form #f="ngForm" (ngSubmit)="onAddToProduct(p)">
+              <label for="" class="control-label">Quantité: </label>
+              <input type="number" name="quantite"  [(ngModel)]="p.quantite"
+                     style="width: 50px; border: antiquewhite">
+              <button>
+                <i class="bi bi-cart-plus-fill"  style="color: goldenrod; " ></i>
+              </button>
+            </form>
+
 
               <!-- <button type="button" class="btn btn-sm btn-outline-primary" ">
                 Add to Cart
               </button> -->
-            </div>
+
           </div>
         </div>
       </div>

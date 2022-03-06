@@ -1,4 +1,4 @@
-<div class="humberger__menu__overlay"></div>
+<!-- <div class="humberger__menu__overlay"></div> -->
 <div class="humberger__menu__wrapper">
   <div class="humberger__menu__logo">
     <a href="#" class="logo">Tsawa9</a>
@@ -21,19 +21,22 @@
       </ul>
     </div>
     <div class="header__top__right__auth">
-      <a href="#"><i class="fa fa-user"></i> Login</a>
+      <a *ngIf="!authService.userAuthenticated"  [routerLink]="['/login']" ><i class="fa fa-user"></i> Login</a>
+      <a *ngIf="authService.userAuthenticated" [routerLink]="['/login']" (click)="logOut()"><i class="fa fa-sign-out" ></i>logouut</a>
+
+      <a class="icon-signout"></a>
     </div>
   </div>
   <nav class="humberger__menu__nav mobile-menu">
     <ul>
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Shop</a></li>
-      <li><a href="#">Pages</a>
+      <li><a href="#">Produits</a>
         <ul class="header__menu__dropdown">
-          <li><a href="#">Shop Details</a></li>
-          <li><a href="#">Shoping Cart</a></li>
-          <li><a href="#">Check Out</a></li>
-          <li><a href="#">Blog Details</a></li>
+          <li><a (click)="produitOnPromo()">Promotion</a></li>
+          <li><a (click)="produitDispo()">Disponible</a></li>
+          <li><a href="#">Hors du stock</a></li>
+
         </ul>
       </li>
       <li><a href="#">Blog</a></li>
@@ -62,7 +65,7 @@
         <div class="col-lg-6 col-md-6">
           <div class="header__top__left">
             <ul>
-              <li><i class="fa fa-envelope"></i> therichposts@gmail.com</li>
+              <li><i class="fa fa-envelope"></i> tsawa9@gmail.com</li>
               <li>Free Shipping for all Order of $99</li>
             </ul>
           </div>
@@ -85,7 +88,8 @@
               </ul>
             </div>
             <div class="header__top__right__auth">
-              <a href="#"><i class="fa fa-user"></i> Login</a>
+              <a *ngIf="!authService.userAuthenticated" [routerLink]="['/login']"  (click)="login()"><i class="fa fa-user"></i> Login</a>
+              <a *ngIf="authService.userAuthenticated" [routerLink]="['/login']" (click)="logOut()"><i class="fa fa-sign-out" ></i>logouut</a>
             </div>
           </div>
         </div>
@@ -96,20 +100,20 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="header__logo">
-          <a href="#" class="logo">Tsawa9</a>
+          <a [routerLink]="['/produit/1/0']" class="logo">Tsawa9</a>
         </div>
       </div>
       <div class="col-lg-6">
         <nav class="header__menu">
           <ul>
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a [routerLink]="['/produit/1/0']"routerLinkActive="router-link-active" >Home</a></li>
             <li><a [routerLink]="['/offers']" routerLinkActive="router-link-active">Offers</a></li>
-            <li><a href="#">Pages</a>
+            <li><a href="#">Produits</a>
               <ul class="header__menu__dropdown">
-                <li><a href="#">Shop Details</a></li>
-                <li><a href="#">Shoping Cart</a></li>
-                <li><a href="#">Check Out</a></li>
-                <li><a href="#">Blog Details</a></li>
+                <li><a (click)="produitOnPromo()">Promotion</a></li>
+                <li><a (click)="produitDispo()">Disponible</a></li>
+                <li><a href="#">Hors du stock</a></li>
+
               </ul>
             </li>
             <li><a href="#">Blog</a></li>
@@ -141,8 +145,10 @@
             <i class="fa fa-bars"></i>
             <span>All departments</span>
           </div>
-          <ul  *ngFor="let c of categories._embedded.categories">
-            <li><a (click)=getCategryById(c.idCategorie) >{{c.nom}}</a></li>
+          <ul class="list-group" *ngIf="categories"  >
+            <li class="list-group-item list-group-item-dark " aria-current="true"
+                *ngFor="let c of categories._embedded.categories" (click)="getCategryById(c.idCategorie) "
+                class="clickable" [ngClass]="currentCategorie==c?active:''" >{{c.nom}}</li>
           </ul>
         </div>
       </div>
@@ -155,7 +161,7 @@
                 <span class="arrow_carrot-down"></span>
               </div>
               <input type="text" placeholder="What do yo u need?" />
-              <button type="submit" class="site-btn">SEARCH</button>
+              <button type="submit"  class="site-btn">SEARCH</button>
             </form>
           </div>
           <div class="hero__search__phone">
@@ -171,7 +177,10 @@
         <div >
           <div class="hero__text">
             <span>Liste des produits:</span>
-          <router-outlet></router-outlet>
+            <div>
+              <app-new></app-new>
+            </div>
+
 
           </div>
         </div>

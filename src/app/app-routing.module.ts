@@ -1,3 +1,4 @@
+import { ProduitDetailComponent } from './produit-detail/produit-detail.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
@@ -35,8 +36,8 @@ const routes:Routes=[
     component: CategorieComponent
   },
   {
-    path: "newProduct",
-    component: NewComponent
+    path: "Produit-details/:url",
+    component: ProduitDetailComponent
   },
   {
     path: "produit/:p1/:p2",
@@ -82,13 +83,17 @@ const routes:Routes=[
     path: "nav/:id",
     component: NavComponent
   },
-  { path: '', redirectTo:"produit/1/0" , pathMatch: 'full' },
+  {
+    path: "produit/promo",
+    component: ProduitComponent
+  },
+  { path: '', redirectTo:"produit/1/0" , pathMatch:'prefix' },
 ]
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
+    // CommonModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]

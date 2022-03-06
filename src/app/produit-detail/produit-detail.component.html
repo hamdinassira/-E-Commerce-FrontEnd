@@ -1,1 +1,122 @@
-<p>produit-detail works!</p>
+
+<div class="container" *ngIf="currentProduit">
+  <div class="row" >
+      <!-- <div class="col-md-6 "  > -->
+           <!-- [routerLink]="['/detailProduit']" routerLinkActive="router-link-active" -->
+  <div class="card" *ngIf="mode==0">
+
+          <div class="card-header shadow-sm text-center">
+            <h4 class=" card-text"  >
+             Fiche de Produit: {{currentProduit.name}} ({{currentProduit.reference}})
+            </h4>
+            <div *ngIf="authService.isAdmin()">
+            <span class="bi bi-pencil-square pull-rigth btn" (click)="onEditProduct()">
+
+            </span></div>
+          </div>
+
+
+          <div class="card-body">
+            <!-- <div class="col-md-5"> -->
+            <img height="150"  class="img-fluid  text-center imd-rounded btn"
+                src="{{this.produiService.URL+'/image/'+currentProduit.id+'?ts='+getTS()}}"
+                />
+
+            <div *ngIf="authService.isAdmin()">
+              <p>
+                <button (click)="onEditPhoto(currentProduit)">
+                  <span class="bi bi-pencil-square">
+
+                  </span>
+                </button>
+              </p>
+              <div  *ngIf="editPhoto==true ">
+                <input type="file" (change)="onSelectFile($event)">
+                <button class="btn btn-success" (click)="uploadPhoto()">Upload</button>
+                <p><ngb-progressbar type="success" textType="white" [value]="progress" [showValue]="true"></ngb-progressbar></p>
+                {{progress}}
+              </div>
+
+             </div>
+             <div> {{currentProduit.description}}</div>
+             <div>
+              <label >Prix:
+              {{currentProduit.price | number:'0.2'}}
+            </label>
+          </div>
+              <div>
+                <span *ngIf="currentProduit.promotion && currentProduit.stock">
+                  <i class="bi bi-bag-heart-fill" style="color: crimson;"></i>
+
+                </span>
+                <span *ngIf="currentProduit.selected">
+
+                </span>
+                <span *ngIf="currentProduit.stock">
+
+                  <i class="bi bi-check-circle-fill"></i>
+
+                </span>
+                <span  *ngIf="!currentProduit.stock">
+                  <i class="bi bi-x-circle-fill" style="color: brown;"></i>
+
+                </span>
+
+
+
+              </div>
+            <div>
+              <form #f="ngForm" (ngSubmit)="onAddToProduct(currentProduit)">
+                <label for="" class="control-label">Quantité: </label>
+                <input type="number" name="quantite"  [(ngModel)]="currentProduit.quantite"
+                       style="width: 50px; border: antiquewhite">
+                <button>
+                  <i class="bi bi-cart-plus-fill"  style="color: goldenrod; " ></i>
+                </button>
+              </form>
+
+
+                <!-- <button type="button" class="btn btn-sm btn-outline-primary" ">
+                  Add to Cart
+                </button> -->
+
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+
+  <div *ngIf="mode==1 && authService.isAdmin()" class="col-lg-6">
+    <form #f="ngForm" (ngSubmit)="onUpdateProduct(f.value)">
+      <div class="form-group">
+        <label  class="control-label">Nom:</label>
+        <input type="text" class="form-control" [(ngModel)]="currentProduit.name" name="name" ngModel>
+      </div>
+      <div class="form-group">
+        <label  class="control-label">Description:</label>
+        <textarea class="form-control" [(ngModel)]="currentProduit.description" name="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label  class="control-label">Prix:</label>
+        <input type="text" class="form-control" [(ngModel)]="currentProduit.price" name="prix">
+      </div>
+      <div class="form-group">
+        <label  class="control-label">Promotion:</label>
+        <input type="checkbox" class="form-control" [(ngModel)]="currentProduit.promotion" name="promotion">
+      </div>
+      <div class="form-group">
+        <label  class="control-label">Disponible:</label>
+        <input type="checkbox" class="form-control" [(ngModel)]="currentProduit.stock" name="stock">
+      </div>
+      <div class="form-group">
+        <label  class="control-label">Selectionnee:</label>
+        <input type="checkbox" class="form-control" [(ngModel)]="currentProduit.selected" name="Selectionnee">
+      </div>
+      <button class="btn-success" type="submit">Modifier</button>
+
+
+    </form>
+
+  </div>
+
+</div>

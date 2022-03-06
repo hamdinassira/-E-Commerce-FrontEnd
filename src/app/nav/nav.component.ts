@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ProduitsService } from '../shared/services/produits.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,18 +12,19 @@ export class NavComponent implements OnInit {
 
    categories;
 
-  id;
+  currentCategorie;
 
 
-  constructor(private product: ProduitsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private product: ProduitsService, private router: Router, private route: ActivatedRoute,
+              public authService: AuthService) {
 
   }
 
   ngOnInit(): void {
-this.id=this.route.snapshot.params.id;
- console.log(this.id)
+    this.authService.loadAuthenticationUserFromLocalStorage();
+
     this.getCategory();
-    this.getCategryById(this.id)
+
   }
 
 
@@ -35,14 +37,41 @@ this.id=this.route.snapshot.params.id;
 
   public getCategryById(id){
     this.product.getCategoriesById(id).subscribe(data=>{
-      console.log(data)
-      this.categories=data
+      // console.log(data)
+      //  this.currentCategorie=data
       // console.log(this.categories.id)
-        this.router.navigate(['produit/2/'+id])
+        this.router.navigate(['/produit/2/'+id])
 
     })
   }
 
+produitOnPromo(){
+  this.currentCategorie=undefined;
+  this.router.navigate(["/produit/3/0"])
 
+}
 
+produitDispo(){
+  this.currentCategorie=undefined;
+  this.router.navigate(["/produit/4/0"])
+
+}
+
+getProduitParNom(nom){
+
+  this.product.produitsParNom(nom).subscribe((data)=>{
+// this.products.name=data
+this.router.navigate(["/produit/5/0"])
+  })
+
+}
+
+logOut(){
+  this.authService.removeTokenFromLocalStorage()
+  // this.authService.isAuthenticated=false;
+  // this.authService.userAuthenticated=undefined
+}
+login(){
+  this.router.navigate(['/login'])
+}
 }
