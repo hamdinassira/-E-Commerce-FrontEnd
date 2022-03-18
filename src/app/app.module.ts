@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProduitComponent } from './produit/produit.component';
@@ -24,6 +24,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProduitDetailComponent } from './produit-detail/produit-detail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { AddProductComponent } from './add-product/add-product.component';
 
 
 @NgModule({
@@ -46,15 +48,18 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NotifComponent,
     NavComponent,
     FooterComponent,
-    ProduitDetailComponent
+    ProduitDetailComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
    ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ToastrModule.forRoot()
 
   ],
   providers: [],

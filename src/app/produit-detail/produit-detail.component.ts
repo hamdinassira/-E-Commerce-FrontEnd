@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { CartService } from './../shared/services/cart.service';
 import { ProduitsService } from './../shared/services/produits.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +14,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 })
 export class ProduitDetailComponent implements OnInit {
 
-  currentProduit: Produits;
+  currentProduit: Produits=new Produits;
   mode:number=0;
   progress: number;
   currentFileUpload: any;
@@ -20,7 +22,7 @@ export class ProduitDetailComponent implements OnInit {
   timestamp: number=0;
   editPhoto: boolean;
   constructor(private router:Router, private route: ActivatedRoute, private produiService:ProduitsService,
-              private authService:AuthService) { }
+              private authService:AuthService, private cartService: CartService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     let url=atob(this.route.snapshot.params.url)
@@ -70,4 +72,41 @@ export class ProduitDetailComponent implements OnInit {
     onEditProduct(){
       this.mode=1
     }
+
+
+    onAddToProduct(currentProduit: Produits){
+      this.cartService.addToProduct(currentProduit)
+
+    }
+
+    onAddtoCart(produit: Produits){
+      this.cartService.addToProduct(produit);
+        // let cart=this.carts.get(this.currentCart)
+    // let ligneCart:LigneCart=cart.items.get(produit.id)
+    // if(ligneCart){
+    //   ligneCart.quantite+=produit.quantite
+
+    // }
+    // else{
+    //   ligneCart=new LigneCart
+    //   ligneCart.prix=produit.price
+    //   ligneCart.quantite=produit.quantite
+    //   ligneCart.produit=produit
+    //   // localStorage.setItem("currenCart", this.currentCart)
+    //   cart.items.set(produit.id,ligneCart)
+
+
+    }
+    onUpdateProduct(){
+      this.produiService.addProduct(this.currentProduit).subscribe((data)=>{
+        console.log(data)
+        // let url=btoa(this.currentProduit._links.product.href)
+this.toast.success("Produit modifié avec succee")
+        // this.router.navigate(["Produit-details"])
+        this.mode=0
+      }, error=>{
+        console.log(error)
+      })
+    }
+
 }

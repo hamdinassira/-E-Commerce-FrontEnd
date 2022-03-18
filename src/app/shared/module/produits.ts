@@ -6,7 +6,7 @@ export class Produits {
  description: string;
  date: Date;
 //  categorie: Categorie;
- price: DoubleRange;
+ price: string;
  reference: string;
  stock:boolean;
  selected: boolean;
@@ -20,7 +20,7 @@ export class Produits {
   product : {
     href : string
   },
-  commande : {
+  categorie : {
     href : string
   }}
 

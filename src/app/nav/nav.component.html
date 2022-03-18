@@ -6,7 +6,8 @@
   <div class="humberger__menu__cart">
     <ul>
       <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-      <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+      <li><a [routerLink]="['/cart']" routerLinkActive="router-link-active" >
+        <i class="fa fa-shopping-bag"></i> <span> {{cartService.getCurrentCart().items.size}}</span></a></li>
     </ul>
     <div class="header__cart__price">item: <span>$150.00</span></div>
   </div>
@@ -125,7 +126,10 @@
         <div class="header__cart">
           <ul>
             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+            <li><a  [routerLink]="['/cart']" routerLinkActive="router-link-active"><i class="fa fa-shopping-bag"></i>
+              <span>
+                <!-- {{cartService.getCurrentCart().nom}} |  -->
+                {{cartService.getCurrentCart().items.size}}</span></a></li>
           </ul>
           <div class="header__cart__price">item: <span>$150.00</span></div>
         </div>
@@ -148,9 +152,20 @@
           <ul class="list-group" *ngIf="categories"  >
             <li class="list-group-item list-group-item-dark " aria-current="true"
                 *ngFor="let c of categories._embedded.categories" (click)="getCategryById(c.idCategorie) "
-                class="clickable" [ngClass]="currentCategorie==c?active:''" >{{c.nom}}</li>
+                class="clickable" [ngClass]="currentCategorie==c?active:''" >{{c.nom}}
+
+                <span *ngIf="authService.isAdmin()" class="pull-right" (click)="deleteCategorie(c.idCategorie)" style="color: red;">
+                     <i class="bi bi-trash3-fill"></i>
+                </span></li>
           </ul>
+          <div class="clickable" type="btn" [routerLink]="['/categorie']" routerLinkActive="router-link-active" >
+
+            <span *ngIf="authService.isAdmin()" style="color: darkgreen; font-size: large;">
+              <i class="bi bi-patch-plus-fill mr-2"></i>Ajouter Categorie</span>
+
+          </div>
         </div>
+
       </div>
       <div class="col-lg-9">
         <div class="hero__search">
@@ -160,8 +175,16 @@
                 All Categories
                 <span class="arrow_carrot-down"></span>
               </div>
-              <input type="text" placeholder="What do yo u need?" />
-              <button type="submit"  class="site-btn">SEARCH</button>
+              <input type="text" placeholder="What do yo u need?" (keyup)="onKey($event)"/>
+
+                <div *ngFor="let item of searchproductFiltered">
+                  {{ item.name }}
+
+                </div>
+
+
+
+              <button type="submit"  class="site-btn" ke (ke)="onKey($event)">SEARCH</button>
             </form>
           </div>
           <div class="hero__search__phone">
@@ -176,7 +199,7 @@
         </div>
         <div >
           <div class="hero__text">
-            <span>Liste des produits:</span>
+
             <div>
               <app-new></app-new>
             </div>

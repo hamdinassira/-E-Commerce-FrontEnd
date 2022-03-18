@@ -1,3 +1,4 @@
+import { AddProductComponent } from './add-product/add-product.component';
 import { ProduitDetailComponent } from './produit-detail/produit-detail.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -32,7 +33,7 @@ const routes:Routes=[
     component: CommandeComponent
   },
   {
-    path: "categorie/:id",
+    path: "categorie",
     component: CategorieComponent
   },
   {
@@ -79,13 +80,16 @@ const routes:Routes=[
     path: "offers",
     component: OffersComponent
   },
-  {
-    path: "nav/:id",
-    component: NavComponent
-  },
+
   {
     path: "produit/promo",
     component: ProduitComponent
+  },
+
+  {
+    path:"ajouterProduit",
+    component: AddProductComponent
+
   },
   { path: '', redirectTo:"produit/1/0" , pathMatch:'prefix' },
 ]

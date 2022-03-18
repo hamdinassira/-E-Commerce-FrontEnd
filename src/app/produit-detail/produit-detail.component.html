@@ -7,7 +7,7 @@
 
           <div class="card-header shadow-sm text-center">
             <h4 class=" card-text"  >
-             Fiche de Produit: {{currentProduit.name}} ({{currentProduit.reference}})
+            <span>Fiche de Produit:</span>  {{currentProduit.name}} ({{currentProduit.reference}})
             </h4>
             <div *ngIf="authService.isAdmin()">
             <span class="bi bi-pencil-square pull-rigth btn" (click)="onEditProduct()">
@@ -58,7 +58,7 @@
 
                 </span>
                 <span  *ngIf="!currentProduit.stock">
-                  <i class="bi bi-x-circle-fill" style="color: brown;"></i>
+                  <i class="bi bi-x-circle-fill" style="color: brown;" aria-valuetext="hors du stock" style="cursor: pointer;"></i>
 
                 </span>
 
@@ -66,7 +66,7 @@
 
               </div>
             <div>
-              <form #f="ngForm" (ngSubmit)="onAddToProduct(currentProduit)">
+              <form #f="ngForm" (ngSubmit)="onAddtoCart(currentProduit)">
                 <label for="" class="control-label">Quantité: </label>
                 <input type="number" name="quantite"  [(ngModel)]="currentProduit.quantite"
                        style="width: 50px; border: antiquewhite">
@@ -87,10 +87,10 @@
     </div>
 
   <div *ngIf="mode==1 && authService.isAdmin()" class="col-lg-6">
-    <form #f="ngForm" (ngSubmit)="onUpdateProduct(f.value)">
+    <form #f="ngForm" >
       <div class="form-group">
         <label  class="control-label">Nom:</label>
-        <input type="text" class="form-control" [(ngModel)]="currentProduit.name" name="name" ngModel>
+        <input type="text" class="form-control" [(ngModel)]="currentProduit.name" name="name" >
       </div>
       <div class="form-group">
         <label  class="control-label">Description:</label>
@@ -112,7 +112,13 @@
         <label  class="control-label">Selectionnee:</label>
         <input type="checkbox" class="form-control" [(ngModel)]="currentProduit.selected" name="Selectionnee">
       </div>
-      <button class="btn-success" type="submit">Modifier</button>
+      <!-- <div class="form-group">
+        <label  class="control-label">Categorie:</label>
+        <ul>
+          <li *ngFor="let c of Categories._embedded.categories"></li>
+        </ul>
+      </div> -->
+      <button class=" btn btn-success" type="submit" (click)="onUpdateProduct()">Modifier</button>
 
 
     </form>

@@ -121,10 +121,10 @@ else if(p1==2)
   }
 getProduitParNom(nom){
 
-  this.produit.produitsParNom(nom).subscribe((data)=>{
-this.products.name=data
-this.router.navigate(["/produit/5/0"])
-  })
+//   this.produit.produitsParNom(nom).subscribe((data)=>{
+// this.products.name=data
+// this.router.navigate(["/produit/5/0"])
+//   })
 
 }
 
@@ -170,5 +170,12 @@ this.router.navigate(["/produit/5/0"])
       let url=btoa(p._links.product.href)
 
       this.router.navigate(["Produit-details/"+url])
+    }
+
+    deleteProduit(id){
+      this.produit.deleteProduitById(id).subscribe((data)=>{
+        console.log("produis supprime")
+      })
+
     }
 }

@@ -1,3 +1,6 @@
+import { Categorie } from './../shared/module/categorie';
+import { Produits } from './../shared/module/produits';
+import { CartService } from './../shared/services/cart.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ProduitsService } from '../shared/services/produits.service';
@@ -10,13 +13,14 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class NavComponent implements OnInit {
 
-   categories;
+  produit: Array<Produits> = [];
+   categories:Categorie;
 
   currentCategorie;
-
+   searchproductFiltered=this.produit
 
   constructor(private product: ProduitsService, private router: Router, private route: ActivatedRoute,
-              public authService: AuthService) {
+              public authService: AuthService, public cartService: CartService) {
 
   }
 
@@ -57,12 +61,32 @@ produitDispo(){
 
 }
 
-getProduitParNom(nom){
+// getProduitParNom(nom){
 
-  this.product.produitsParNom(nom).subscribe((data)=>{
-// this.products.name=data
-this.router.navigate(["/produit/5/0"])
-  })
+//   this.product.rechercherProduitsParNom(nom).subscribe((data)=>{
+
+//     this.produit.name=JSON.stringify(data)
+
+// this.router.navigate(["/produit/5/0"])
+//   })
+
+// }
+
+onKey(event: KeyboardEvent) {
+console.log(this.produit)
+
+  const filterValue = (<HTMLInputElement>event.target).value;
+
+  if (!filterValue) {
+    this.searchproductFiltered = this.produit;
+    console.log(this.searchproductFiltered)
+    return;
+  }
+
+  this.searchproductFiltered = this.produit.filter(product => {
+    return product.name.includes(filterValue);
+
+  });console.log(this.searchproductFiltered)
 
 }
 
@@ -73,5 +97,26 @@ logOut(){
 }
 login(){
   this.router.navigate(['/login'])
+}
+
+getSize(){
+  this.cartService.getCurrentCart().items
+}
+
+AddCategory(c){
+
+this.router.navigate[('/categorie')]
+
+
+}
+
+deleteCategorie(idCategorie){
+  this.product.deleteCategorieById(idCategorie).subscribe((data)=>{
+    console.log(data)
+    this.getCategory()
+    this.router.navigate([''])
+
+  })
+
 }
 }

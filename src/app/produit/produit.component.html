@@ -1,6 +1,11 @@
+<div class="clickable" type="btn" [routerLink]="['/ajouterProduit']" routerLinkActive="router-link-active" >
+    <span *ngIf="authService.isAdmin()" style="color: darkgreen; font-size: large;">
+      <i class="bi bi-patch-plus-fill mr-2"></i>Ajouter Produit</span>
 
+  </div>
 <div class="container">
 <div class="row" >
+
     <div class="col-md-6 " style="border: darkgrey; margin-bottom: 10px; margin-left: auto;"
          *ngFor="let p of products._embedded.products" >
          <!-- [routerLink]="['/detailProduit']" routerLinkActive="router-link-active" -->
@@ -65,16 +70,18 @@
               <label for="" class="control-label">Quantité: </label>
               <input type="number" name="quantite"  [(ngModel)]="p.quantite"
                      style="width: 50px; border: antiquewhite">
-              <button>
+              <!-- <button>
                 <i class="bi bi-cart-plus-fill"  style="color: goldenrod; " ></i>
-              </button>
+              </button> -->
             </form>
 
 
               <!-- <button type="button" class="btn btn-sm btn-outline-primary" ">
                 Add to Cart
               </button> -->
-
+              <span *ngIf="authService.isAdmin()" class="pull-right clickable" (click)="deleteProduit(p.id)" style="color: red; font-size: large;">
+                <i class="bi bi-trash3-fill"></i>
+           </span>
           </div>
         </div>
       </div>

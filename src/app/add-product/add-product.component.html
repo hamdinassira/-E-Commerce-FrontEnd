@@ -1,0 +1,49 @@
+<div class="card" >
+
+  <div class="card-header text-center">
+    <span>Ajouter produit</span>
+
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="md-col-8">
+        <form #f="ngForm">
+          <div class="form-group">
+            <input class="form-control" type="text" name="nom" placeholder="Nom du produit" [(ngModel)]="produit.name" id="nom">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" name="description" placeholder="Description du produit" [(ngModel)]="produit.description" id="description">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" name="prix" placeholder="Prix du produit" [(ngModel)]="produit.price" id="prix">
+          </div>
+          <div class="form-group">
+            <label for="">En stock:</label>
+            <input class="form-control" type="checkbox" name="stock" [(ngModel)]="produit.stock" id="stock">
+          </div>
+          <div class="form-group">
+            <label for="">En promotion:</label>
+            <input class="form-control" type="checkbox" name="promotion"  [(ngModel)]="produit.promotion" id="promotion">
+          </div>
+          <div class="form-group">
+            <label for="">Produit sélectionné:</label>
+            <input class="form-control" type="checkbox" name="selected"  [(ngModel)]="produit.selected" id="selected">
+          </div>
+          <div class="form-group">
+<label for="categorie">Categorie:</label>
+            <select *ngIf="categories" class="clickable custom-select custom-select-lg mb-3"  >
+
+              <option *ngFor="let c of categories._embedded.categories"   id="categorie">
+                {{c.nom}}
+              </option>
+              </select>
+
+          </div>
+          <bouton class="btn btn-success mt-3" type="submit" (click)="ajouterProduit()">Ajouter</bouton>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

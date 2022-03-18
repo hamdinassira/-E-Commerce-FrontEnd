@@ -1,1 +1,54 @@
-<p>cart works!</p>
+<div class="card">
+  <div class="card-header text-center">
+    <h6 style="color: crimson; font-size: large; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+              text-decoration: solid;">
+     {{cartService.getCurrentCart().nom}}
+    </h6>
+
+  </div>
+  <div class="card-body  text-center">
+    <div class="row" *ngFor="let pi of cartService.getCurrentCart().items.values() ">
+      <div class="col-md-2">
+        <img height="150"  class="img-fluid  text-center imd-rounded btn" src="{{this.produit.URL+'/image/'+pi.produit.id}}" >
+      </div>
+      <div class="col-md-6">
+        <div>
+          <span>Reference produit:</span>{{pi.produit.reference}}
+
+        </div>
+
+        <div>
+          {{pi.produit.description}}
+        </div>
+      </div>
+      <div class="col-md-3" >
+        <div>
+          <span>Prix:</span>
+          {{pi.produit.price  | number:'0.2'}}
+
+        </div>
+        <div>
+          <label class="control-label"><span>Quantité:</span>  </label>
+              <input type="number" name="quantite"  [(ngModel)]="pi.produit.quantite"
+                     style="width: 50px; border: antiquewhite">
+
+        </div>
+      </div>
+      <div class="col-md-1">
+        <a class="btn" style="color: red; margin-left: 20px; font-size: large;">
+          <i class="fa fa-trash" aria-hidden="true" style=" margin-right: 20px;"></i></a>
+      </div>
+    <!-- </div>
+    <div class="row" > -->
+      <div class="col-md-8 pull-rigth">
+      <span >Total de la commande:</span>
+          </div>
+      <div class="col-md-4">
+            <span >{{cartService.getTotalForoCart()  | number:'0.2'}}</span>
+      </div>
+      <div class="col-md-1"></div>
+
+    </div>
+  </div>
+
+</div>
